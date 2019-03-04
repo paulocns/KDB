@@ -9,13 +9,9 @@ import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
-import org.mockito.ArgumentCaptor
+import org.mockito.*
 import org.mockito.ArgumentMatchers.any
-import org.mockito.Captor
-import org.mockito.Mockito
-import org.mockito.Mockito.never
-import org.mockito.Mockito.times
-import org.mockito.MockitoAnnotations
+import org.mockito.Mockito.*
 import org.robolectric.Robolectric
 import org.robolectric.RobolectricTestRunner
 import java.lang.ref.WeakReference
@@ -42,6 +38,18 @@ class EditTextTwoWayBindingKtTest {
         binder.oneWayBind.invoke("2")
         //assert
         assertEquals("2", editText.text.toString())
+    }
+
+    @Test
+    fun test_oneWayBindEquals() {
+        //arrange
+        val spy = Mockito.spy(editText)
+        val binder = spy.bindableText
+        doReturn(SpannableStringBuilder("2")).`when`(spy).text
+        //act
+        binder.oneWayBind.invoke("2")
+        //assert
+        verify(spy, never()).setText(ArgumentMatchers.anyString())
     }
 
     @Test

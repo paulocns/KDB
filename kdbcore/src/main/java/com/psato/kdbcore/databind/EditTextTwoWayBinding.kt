@@ -11,7 +11,12 @@ val EditText.bindableText: TwoWayBinder<String>
 
         private var listener: TextWatcher? = null
         override val oneWayBind: (it: String) -> Unit
-            get() = { setText(it) }
+            get() = {
+                if (it != text.toString()) {
+                    setText(it)
+                }
+            }
+
 
         override fun observeField(dataReference: WeakReference<MutableLiveData<String>?>) {
             if (listener != null) {

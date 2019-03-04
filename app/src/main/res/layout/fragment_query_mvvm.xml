@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout android:layout_height="match_parent"
+    android:layout_width="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <LinearLayout
+        android:layout_gravity="top"
+        android:layout_height="match_parent"
+        android:layout_width="match_parent"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_gravity="center"
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:orientation="horizontal"
+            android:paddingEnd="8dp"
+            android:paddingLeft="8dp"
+            android:paddingRight="8dp"
+            android:paddingStart="8dp">
+
+            <android.support.design.widget.TextInputLayout
+                android:hint="@string/show_name"
+                android:id="@+id/login_another_account_branchInput"
+                android:importantForAccessibility="no"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:textColorHint="@android:color/background_dark">
+
+                <EditText
+                    android:id="@+id/edit_query"
+                    android:imeOptions="actionDone"
+                    android:inputType="text"
+                    android:layout_height="match_parent"
+                    android:layout_width="match_parent"
+                    android:maxLines="1" />
+            </android.support.design.widget.TextInputLayout>
+
+            <Button
+                android:id="@+id/search_button"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_marginStart="20dp"
+                android:layout_width="wrap_content"
+                android:text="@string/search" />
+
+        </LinearLayout>
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/response_recycler_view"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:background="#CECECE"
+            android:layout_weight="1"/>
+    </LinearLayout>
+
+    <FrameLayout
+        android:background="#88000000"
+        android:id="@+id/loading_layout"
+        android:layout_height="match_parent"
+        android:layout_width="match_parent">
+
+        <ProgressBar
+            android:layout_gravity="center"
+            android:layout_height="50dp"
+            android:layout_width="50dp"
+            android:theme="@style/Widget.AppCompat.ProgressBar" />
+    </FrameLayout>
+</FrameLayout>
