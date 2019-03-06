@@ -47,29 +47,15 @@ class OneWayBindingKtTest {
     }
 
     @Test
-    fun test_observerNoTransform() {
+    fun test_observer() {
         //arrange
-        lifecycleOwner.bind(liveDataMock, editTextMock::setText)
+        lifecycleOwner.bind(liveDataMock) { editTextMock.setText(it) }
         Mockito.verify(liveDataMock).observe(eq(lifecycleOwner), observerCaptor.capture())
         val observe = observerCaptor.value
         //act
         observe.onChanged("value2")
         //assert
         Mockito.verify(editTextMock).setText("value2")
-    }
-
-    @Test
-    fun test_observerTransform() {
-        //arrange
-        lifecycleOwner.bind(liveDataMock, editTextMock::setText) {
-            it.toUpperCase()
-        }
-        Mockito.verify(liveDataMock).observe(eq(lifecycleOwner), observerCaptor.capture())
-        val observe = observerCaptor.value
-        //act
-        observe.onChanged("value2")
-        //assert
-        Mockito.verify(editTextMock).setText("value2".toUpperCase())
     }
 
     @Test
