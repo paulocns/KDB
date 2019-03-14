@@ -2,7 +2,8 @@
 Kotlin Databind library  made using only extension funcions no code generation.
 
 Since there is no code generation, no more hunting throught a log to find a error in a 1000 erros log.
-to use it just add it to your gradle file
+
+To use it just add it to your gradle file
 
 
 ```
