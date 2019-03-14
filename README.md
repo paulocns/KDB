@@ -1,7 +1,7 @@
 # KDB
-Kotlin Databind library was made as an alternative to the Android Databind Library, this was made to be used with LiveData, so no changes to your ViewModel/Presenter is required to use this.
+Kotlin Databind library was made as an alternative to the Android Databind Library, this was constructed to be used with LiveData, so no changes to your ViewModel/Presenter is required to use this.
 
-This library was made using extension function, since there is no code generation, no more hunting throught a log to find a error in a 1000 erros log.
+This library was made using extension function, since there is no code generation, no more hunting through a log to find a error in a 1000 erros log.
 
 To use it just add it to your gradle file
 
