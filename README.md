@@ -12,9 +12,7 @@ implementation 'com.psato.kdbcore:kdb:0.2.0'
 ```
 
 ## Simple usage
-
-To perform a bind there are two method that you can call inside a LifeCycleOwner
-to perform a one way bind just call the method **bind** like on the exemple bellow:
+Inside a LifeCycleOwner to perform a one way bind just call the method **bind**
 ```
 bind(queryViewModelArc.searchEnabled, searchButton::setEnabled)
 bind(queryViewModelArc.showLoading){ loadinLayout.present = it} 
