@@ -3,14 +3,16 @@ Kotlin Databind library was made as an alternative to the Android Databind Libra
 
 This library was made using extension function, since there is no code generation, no more hunting through a log to find a error in a 1000 erros log.
 
-To use it just add it to your gradle file
+## Adding to project
+
+To use it just add it to your app gradle file
 
 ```
 implementation 'com.psato.kdbcore:kdb:0.2.0'
 ```
 
-To perform a bind there are two method that you can call inside a LifeCycleOwner
-to perform a one way bind just call the method **bind** like on the exemple bellow:
+## Simple usage
+Inside a LifeCycleOwner to perform a one way bind just call the method **bind**
 ```
 bind(queryViewModelArc.searchEnabled, searchButton::setEnabled)
 bind(queryViewModelArc.showLoading){ loadinLayout.present = it} 
