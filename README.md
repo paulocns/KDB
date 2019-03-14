@@ -5,7 +5,7 @@ This library was made using extension function, since there is no code generatio
 
 ## Adding to project
 
-To use it just add it to your gradle file
+To use it just add it to your app gradle file
 
 ```
 implementation 'com.psato.kdbcore:kdb:0.2.0'
