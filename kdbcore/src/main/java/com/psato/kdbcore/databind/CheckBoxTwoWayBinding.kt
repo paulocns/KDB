@@ -5,6 +5,9 @@ import android.widget.CheckBox
 import java.lang.ref.WeakReference
 
 
+/**
+ * @property bindableCheck TwoWayBinder for the check field.
+ */
 val CheckBox.bindableCheck: TwoWayBinder<Boolean>
     get() = object : TwoWayBinder<Boolean>() {
         override val oneWayBind: (it: Boolean) -> Unit

@@ -6,6 +6,10 @@ import android.text.TextWatcher
 import android.widget.EditText
 import java.lang.ref.WeakReference
 
+
+/**
+ * @property bindableText TwoWayBinder for the text field.
+ */
 val EditText.bindableText: TwoWayBinder<String>
     get() = object : TwoWayBinder<String>() {
 

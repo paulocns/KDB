@@ -11,6 +11,9 @@ abstract class LifeCycleViewHolder(itemView: View) : RecyclerView.ViewHolder(ite
 
     private var _lifeCycle: Lifecycle? = null
 
+    /**
+     * @return the Lifecycle for this ViewHolder.
+     */
     override fun getLifecycle(): Lifecycle {
         if (_lifeCycle == null) {
             _lifeCycle = LifecycleRegistry(this)
@@ -18,11 +21,17 @@ abstract class LifeCycleViewHolder(itemView: View) : RecyclerView.ViewHolder(ite
         return _lifeCycle as Lifecycle
     }
 
+    /**
+     * Function to set the lifecycle as onResume state.
+     */
     fun notifyBindViewHolder() {
         val lifecycleRegistry = lifecycle as LifecycleRegistry
         lifecycleRegistry.handleLifecycleEvent(Lifecycle.Event.ON_RESUME)
     }
 
+    /**
+     * Function to set the lifecycle as onDestroy state.
+     */
     fun notifyUnbindViewHolder() {
         val lifecycleRegistry = lifecycle as LifecycleRegistry
         lifecycleRegistry.handleLifecycleEvent(Lifecycle.Event.ON_DESTROY)
