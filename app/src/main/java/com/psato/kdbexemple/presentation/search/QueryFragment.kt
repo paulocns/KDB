@@ -35,7 +35,7 @@ class QueryFragment : BaseFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         bind(queryViewModelArc.searchEnabled, searchButton::setEnabled)
-        bind(queryViewModelArc.showLoading, loadinLayout::present::set)
+        bind(queryViewModelArc.showLoading){ loadinLayout.present = it}
         searchButton.onClick(queryViewModelArc::onQueryClick)
         twoWayBind(queryViewModelArc.queryValue, queryEditText.bindableText)
         adapter = QuerryAdapter(queryViewModelArc)

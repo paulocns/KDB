@@ -9,18 +9,23 @@ import android.view.View
 abstract class LifeCycleViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView),
     LifecycleOwner {
 
-    private val lifecycle = LifecycleRegistry(this)
+    private var _lifeCycle: Lifecycle? = null
 
     override fun getLifecycle(): Lifecycle {
-        return lifecycle
+        if (_lifeCycle == null) {
+            _lifeCycle = LifecycleRegistry(this)
+        }
+        return _lifeCycle as Lifecycle
     }
 
     fun notifyBindViewHolder() {
-        lifecycle.handleLifecycleEvent(Lifecycle.Event.ON_RESUME)
+        val lifecycleRegistry = lifecycle as LifecycleRegistry
+        lifecycleRegistry.handleLifecycleEvent(Lifecycle.Event.ON_RESUME)
     }
 
     fun notifyUnbindViewHolder() {
-        lifecycle.handleLifecycleEvent(Lifecycle.Event.ON_DESTROY)
+        val lifecycleRegistry = lifecycle as LifecycleRegistry
+        lifecycleRegistry.handleLifecycleEvent(Lifecycle.Event.ON_DESTROY)
     }
 
 }
