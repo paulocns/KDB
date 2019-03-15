@@ -34,10 +34,12 @@ class QueryFragment : BaseFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        bind(queryViewModelArc.searchEnabled, searchButton::setEnabled)
-        bind(queryViewModelArc.showLoading){ loadinLayout.present = it}
+        viewLifecycleOwner.apply {
+            bind(queryViewModelArc.searchEnabled, searchButton::setEnabled)
+            bind(queryViewModelArc.showLoading){ loadinLayout.present = it}
+            twoWayBind(queryViewModelArc.queryValue, queryEditText.bindableText)
+        }
         searchButton.onClick(queryViewModelArc::onQueryClick)
-        twoWayBind(queryViewModelArc.queryValue, queryEditText.bindableText)
         adapter = QuerryAdapter(queryViewModelArc)
         showResponse.layoutManager = LinearLayoutManager(activity)
         showResponse.adapter = adapter
