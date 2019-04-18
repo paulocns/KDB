@@ -28,12 +28,7 @@ val EditText.bindableText: TwoWayBinder<String>
             }
             listener = object : TextWatcher {
                 override fun afterTextChanged(s: Editable?) {
-                    val text = dataReference.get()
-                    text?.let {
-                        if (it.value != s.toString()) {
-                            it.value = s.toString()
-                        }
-                    }
+                    //nothing to do
                 }
 
                 override fun beforeTextChanged(
@@ -43,7 +38,12 @@ val EditText.bindableText: TwoWayBinder<String>
                 }
 
                 override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                    //nothing to do
+                    val text = dataReference.get()
+                    text?.let {
+                        if (it.value != s.toString()) {
+                            it.value = s.toString()
+                        }
+                    }
                 }
 
             }

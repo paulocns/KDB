@@ -8,7 +8,7 @@ publish {
 
     def groupProjectID = 'com.psato.kdbcore'
     def artifactProjectID = 'kdb'
-    def publishVersionID = '0.2.1'
+    def publishVersionID = '0.3.0'
 
     userOrg = 'paulocns'
     repoName = 'kdb'

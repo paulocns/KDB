@@ -81,7 +81,7 @@ class EditTextTwoWayBindingKtTest {
     }
 
     @Test
-    fun test_observeFieldAfterTextChangedDataNotNullDifferent() {
+    fun test_observeFieldOnTextChangedDataNotNullDifferent() {
         //arrange
         val spy = Mockito.spy(editText)
         val binder = spy.bindableText
@@ -91,7 +91,7 @@ class EditTextTwoWayBindingKtTest {
         Mockito.verify(spy).addTextChangedListener(captor.capture())
         val listener = captor.value
         //act
-        listener.afterTextChanged(SpannableStringBuilder("2"))
+        listener.onTextChanged("2",0,0,1)
         //assert
         Mockito.verify(data).value = "2"
     }
