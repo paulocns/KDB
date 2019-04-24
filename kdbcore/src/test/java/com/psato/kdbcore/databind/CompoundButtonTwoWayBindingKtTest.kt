@@ -2,15 +2,18 @@ package com.psato.kdbcore.databind
 
 import android.app.Application
 import android.arch.lifecycle.MutableLiveData
+import android.content.Context
 import android.support.v4.app.FragmentActivity
-import android.widget.CheckBox
+import android.util.AttributeSet
 import android.widget.CompoundButton
-import org.junit.Assert.*
+import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
-import org.mockito.*
+import org.mockito.ArgumentCaptor
+import org.mockito.Captor
 import org.mockito.Mockito.*
+import org.mockito.MockitoAnnotations
 import org.robolectric.Robolectric
 import org.robolectric.RobolectricTestRunner
 import org.robolectric.annotation.Config
@@ -18,9 +21,9 @@ import java.lang.ref.WeakReference
 
 @RunWith(RobolectricTestRunner::class)
 @Config(application = Application::class)
-class CheckBoxTwoWayBindingKtTest{
+class CompoundButtonTwoWayBindingKtTest{
 
-    private lateinit var checkBox: CheckBox
+    private lateinit var checkBox: CompoundButton
 
     @Captor
     private lateinit var captor: ArgumentCaptor<CompoundButton.OnCheckedChangeListener>
@@ -28,7 +31,7 @@ class CheckBoxTwoWayBindingKtTest{
     @Before
     fun setUp() {
         MockitoAnnotations.initMocks(this)
-        checkBox = CheckBox(Robolectric.setupActivity(FragmentActivity::class.java))
+        checkBox = Checkable(Robolectric.setupActivity(FragmentActivity::class.java))
     }
 
     @Test
@@ -96,4 +99,10 @@ class CheckBoxTwoWayBindingKtTest{
         //assert
         verify(spy).setOnCheckedChangeListener(null)
     }
+
+    private class Checkable @JvmOverloads constructor(
+        context: Context,
+        attrs: AttributeSet? = null,
+        defStyle: Int = 0
+    ): CompoundButton(context, attrs, defStyle)
 }

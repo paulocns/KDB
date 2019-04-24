@@ -1,14 +1,14 @@
 package com.psato.kdbcore.databind
 
 import android.arch.lifecycle.MutableLiveData
-import android.widget.CheckBox
+import android.widget.CompoundButton
 import java.lang.ref.WeakReference
 
 
 /**
  * @property bindableCheck TwoWayBinder for the check field.
  */
-val CheckBox.bindableCheck: TwoWayBinder<Boolean>
+val CompoundButton.bindableCheck: TwoWayBinder<Boolean>
     get() = object : TwoWayBinder<Boolean>() {
         override val oneWayBind: (it: Boolean) -> Unit
             get() = { isChecked = it }
