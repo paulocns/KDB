@@ -2,15 +2,18 @@ package com.psato.kdbcore.databind
 
 import android.app.Application
 import android.arch.lifecycle.MutableLiveData
+import android.content.Context
 import android.support.v4.app.FragmentActivity
+import android.util.AttributeSet
 import android.widget.CompoundButton
-import android.widget.RadioButton
-import org.junit.Assert.*
+import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
-import org.mockito.*
+import org.mockito.ArgumentCaptor
+import org.mockito.Captor
 import org.mockito.Mockito.*
+import org.mockito.MockitoAnnotations
 import org.robolectric.Robolectric
 import org.robolectric.RobolectricTestRunner
 import org.robolectric.annotation.Config
@@ -18,9 +21,9 @@ import java.lang.ref.WeakReference
 
 @RunWith(RobolectricTestRunner::class)
 @Config(application = Application::class)
-class RadioButtonTwoWayBindingKtTest{
+class CompoundButtonTwoWayBindingKtTest{
 
-    private lateinit var radioButton: RadioButton
+    private lateinit var checkBox: CompoundButton
 
     @Captor
     private lateinit var captor: ArgumentCaptor<CompoundButton.OnCheckedChangeListener>
@@ -28,25 +31,25 @@ class RadioButtonTwoWayBindingKtTest{
     @Before
     fun setUp() {
         MockitoAnnotations.initMocks(this)
-        radioButton = RadioButton(Robolectric.setupActivity(FragmentActivity::class.java))
+        checkBox = Checkable(Robolectric.setupActivity(FragmentActivity::class.java))
     }
 
     @Test
     fun test_oneWayBind(){
         //arrange
-        val binder = radioButton.bindableRadio
-        radioButton.isChecked = false
+        val binder = checkBox.bindableCheck
+        checkBox.isChecked = false
         //act
         binder.oneWayBind.invoke(true)
         //assert
-        assertTrue(radioButton.isChecked)
+        assertTrue(checkBox.isChecked)
     }
 
     @Test
     fun test_observeField(){
         //arrange
-        val spy = spy(radioButton)
-        val binder = spy.bindableRadio
+        val spy = spy(checkBox)
+        val binder = spy.bindableCheck
         val data = mock(MutableLiveData::class.java) as MutableLiveData<Boolean>
         val reference:WeakReference<MutableLiveData<Boolean>?> = WeakReference(data)
         //act
@@ -58,8 +61,8 @@ class RadioButtonTwoWayBindingKtTest{
     @Test
     fun test_observeFieldListenerDataNotNull(){
         //arrange
-        val spy = spy(radioButton)
-        val binder = spy.bindableRadio
+        val spy = spy(checkBox)
+        val binder = spy.bindableCheck
         val data = mock(MutableLiveData::class.java) as MutableLiveData<Boolean>
         val reference:WeakReference<MutableLiveData<Boolean>?> = WeakReference(data)
         binder.observeField(reference)
@@ -74,8 +77,8 @@ class RadioButtonTwoWayBindingKtTest{
     @Test
     fun test_observeFieldListenerDataNull(){
         //arrange
-        val spy = spy(radioButton)
-        val binder = spy.bindableRadio
+        val spy = spy(checkBox)
+        val binder = spy.bindableCheck
         val reference:WeakReference<MutableLiveData<Boolean>?> = WeakReference(null)
         binder.observeField(reference)
         verify(spy).setOnCheckedChangeListener(captor.capture())
@@ -89,11 +92,17 @@ class RadioButtonTwoWayBindingKtTest{
     @Test
     fun test_removeObserver(){
         //arrange
-        val spy = spy(radioButton)
-        val binder = spy.bindableRadio
+        val spy = spy(checkBox)
+        val binder = spy.bindableCheck
         //act
         binder.removeObserver()
         //assert
         verify(spy).setOnCheckedChangeListener(null)
     }
+
+    private class Checkable @JvmOverloads constructor(
+        context: Context,
+        attrs: AttributeSet? = null,
+        defStyle: Int = 0
+    ): CompoundButton(context, attrs, defStyle)
 }
