@@ -1,12 +1,12 @@
 package com.psato.kdbexemple.presentation.search
 
-import android.arch.lifecycle.LifecycleOwner
-import android.arch.lifecycle.MutableLiveData
-import android.arch.lifecycle.Observer
-import android.arch.lifecycle.ViewModel
 import android.text.TextUtils
 import android.view.View
-import com.psato.kdbcore.databind.AdapterViewModel
+import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModel
+import com.psato.extensions.AdapterViewModel
 import com.psato.kdbexemple.data.entity.ShowResponse
 import com.psato.kdbexemple.infrastructure.SingleLiveEvent
 import com.psato.kdbexemple.interactor.usecase.show.SearchShows

@@ -1,1 +1,1 @@
-include ':app', ':kdbcore'
+include ':app', ':kdbcore', ':onewaybind', ':twowaybind', ':extensions'

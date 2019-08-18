@@ -1,12 +1,9 @@
 package com.psato.kdbexemple.presentation.base
 
-import android.support.v4.app.Fragment
+import androidx.fragment.app.Fragment
 
 /**
  * Created by psato on 29/10/16.
  */
 
-abstract class BaseFragment : Fragment() {
-
-
-}
+abstract class BaseFragment : Fragment()

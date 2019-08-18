@@ -4,16 +4,15 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-import com.psato.kdbcore.databind.AdapterViewModel
-import com.psato.kdbcore.databind.LifeCycleAdapter
-import com.psato.kdbcore.databind.LifeCycleViewHolder
-import com.psato.kdbcore.databind.bind
+import com.psato.extensions.AdapterViewModel
+import com.psato.extensions.LifeCycleViewHolder
 import com.psato.kdbexemple.R
 import com.psato.kdbexemple.infrastructure.bindView
+import com.psato.onewaybind.bind
 
 
 class QuerryAdapter(private val viewModel: AdapterViewModel<ShowResponseItem>) :
-    LifeCycleAdapter<ShowResponseItem, QuerryAdapter.SearchViewHolder>(viewModel) {
+    com.psato.extensions.LifeCycleAdapter<ShowResponseItem, QuerryAdapter.SearchViewHolder>(viewModel) {
 
     override fun onBindViewHolderImpl(holder: SearchViewHolder, position: Int) {
         holder.bindView(viewModel.getItemAtPosition(position))

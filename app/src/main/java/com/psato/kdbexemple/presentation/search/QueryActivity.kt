@@ -1,8 +1,8 @@
 package com.psato.kdbexemple.presentation.search
 
 import android.os.Bundle
-import android.support.v7.app.AppCompatActivity
 import android.widget.Button
+import androidx.appcompat.app.AppCompatActivity
 import com.psato.kdbexemple.R
 import com.psato.kdbexemple.infrastructure.bindView
 

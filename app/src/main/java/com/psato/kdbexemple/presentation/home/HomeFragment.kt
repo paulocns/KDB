@@ -1,18 +1,18 @@
 package com.psato.kdbexemple.presentation.home
 
-import android.arch.lifecycle.Observer
 import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
-import com.psato.kdbcore.databind.onClick
+import androidx.lifecycle.Observer
+import com.psato.extensions.onClick
 import com.psato.kdbexemple.R
 import com.psato.kdbexemple.infrastructure.bindView
 import com.psato.kdbexemple.presentation.base.BaseFragment
 import com.psato.kdbexemple.presentation.search.QueryActivity
-import org.koin.android.viewmodel.ext.android.viewModel
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class HomeFragment : BaseFragment() {
 

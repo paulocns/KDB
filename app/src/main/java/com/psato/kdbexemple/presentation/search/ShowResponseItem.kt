@@ -1,7 +1,7 @@
 package com.psato.kdbexemple.presentation.search
 
-import android.arch.lifecycle.MutableLiveData
-import com.psato.kdbcore.databind.ChildViewModel
+import androidx.lifecycle.MutableLiveData
+import com.psato.extensions.ChildViewModel
 import com.psato.kdbexemple.data.entity.ShowResponse
 
 class ShowResponseItem(val showResponse: ShowResponse) : ChildViewModel() {
