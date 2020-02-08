@@ -3,9 +3,11 @@ package com.psato.twowaybind
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleObserver
 import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import androidx.lifecycle.OnLifecycleEvent
+import com.psato.onewaybind.Bindable
 import java.lang.ref.WeakReference
 
 
@@ -18,17 +20,18 @@ import java.lang.ref.WeakReference
  * @param data A MutableLiveData of any type.
  * @param twoWayBinder a TwoWayBinder of the same type as your MutableLiveData.
  */
-fun <T : Any> LifecycleOwner.twoWayBind(
-    data: MutableLiveData<T>,
-    twoWayBinder: TwoWayBinder<T>
-) {
-    data.observe(this, Observer { value ->
-        value?.let {
-            twoWayBinder.oneWayBind.invoke(it)
+interface TwoWayBindable: Bindable {
+    fun <T> LiveData<T>.twoWayBind(twoWayBinder: TwoWayBinder<T>){
+        require(this is MutableLiveData){
+            "can't set values to read only live data"
         }
-    })
-    twoWayBinder.twoWayBind(data, this)
-
+        observe(lifeCycleOwner, Observer { value ->
+            value?.let {
+                twoWayBinder.oneWayBind.invoke(it)
+            }
+        })
+        twoWayBinder.twoWayBind(this, lifeCycleOwner)
+    }
 }
 
 

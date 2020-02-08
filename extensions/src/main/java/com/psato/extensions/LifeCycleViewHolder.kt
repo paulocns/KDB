@@ -5,9 +5,13 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LifecycleRegistry
 import androidx.recyclerview.widget.RecyclerView
+import com.psato.onewaybind.Bindable
 
 abstract class LifeCycleViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView),
-    LifecycleOwner {
+    LifecycleOwner, Bindable {
+
+    override val lifeCycleOwner: LifecycleOwner
+        get() = this
 
     private var _lifeCycle: Lifecycle? = null
 

@@ -2,6 +2,7 @@ package com.psato.kdbexemple.presentation.search
 
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -15,12 +16,11 @@ import com.psato.extensions.present
 import com.psato.kdbexemple.R
 import com.psato.kdbexemple.infrastructure.bindView
 import com.psato.kdbexemple.presentation.base.BaseFragment
-import com.psato.onewaybind.bind
+import com.psato.twowaybind.TwoWayBindable
 import com.psato.twowaybind.bindableText
-import com.psato.twowaybind.twoWayBind
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class QueryFragment : BaseFragment() {
+class QueryFragment : BaseFragment(), TwoWayBindable {
     val searchButton: Button by bindView(R.id.search_button)
     val loadinLayout: ViewGroup by bindView(R.id.loading_layout)
     val queryEditText: EditText by bindView(R.id.edit_query)
@@ -39,11 +39,9 @@ class QueryFragment : BaseFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewLifecycleOwner.apply {
-            bind(queryViewModelArc.searchEnabled, searchButton::setEnabled)
-            bind(queryViewModelArc.showLoading) { loadinLayout.present = it }
-            twoWayBind(queryViewModelArc.queryValue, queryEditText.bindableText)
-        }
+        queryViewModelArc.apply {  }.searchEnabled.bind(searchButton::setEnabled)
+        queryViewModelArc.showLoading.bind { loadinLayout.present = it }
+        queryViewModelArc.queryValue.twoWayBind(queryEditText.bindableText)
         searchButton.onClick(queryViewModelArc::onQueryClick)
         adapter = QuerryAdapter(queryViewModelArc)
         showResponse.layoutManager = LinearLayoutManager(activity)
@@ -51,5 +49,6 @@ class QueryFragment : BaseFragment() {
         queryViewModelArc.registerItemsForUpdate(viewLifecycleOwner, Observer {
             adapter.notifyDataSetChanged()
         })
+        Log.d("SATO", "metric QueryFragment finished")
     }
 }

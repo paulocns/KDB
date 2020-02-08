@@ -1,46 +1,44 @@
 package com.psato.kdbexemple.presentation.search
 
+
 import android.text.TextUtils
 import android.view.View
 import androidx.lifecycle.LifecycleOwner
-import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.LiveDataUpdateListener
 import androidx.lifecycle.Observer
+import androidx.lifecycle.ParentViewModel
 import androidx.lifecycle.ViewModel
 import com.psato.extensions.AdapterViewModel
+import com.psato.extensions.LiveDataFactory
+import com.psato.extensions.LiveDataSetter
 import com.psato.kdbexemple.data.entity.ShowResponse
 import com.psato.kdbexemple.infrastructure.SingleLiveEvent
 import com.psato.kdbexemple.interactor.usecase.show.SearchShows
 
 class QueryViewModelArc
 constructor(private val searchShows: SearchShows) : ViewModel(),
+    LiveDataFactory, LiveDataSetter, LiveDataUpdateListener, ParentViewModel,
     AdapterViewModel<ShowResponseItem> {
-    val queryValue = MutableLiveData<String>()
+    val queryValue by liveData("")
 
-    val showLoading = MutableLiveData<Boolean>()
+    val showLoading by liveData(false)
 
-    val searchEnabled = MutableLiveData<Boolean>()
+    val searchEnabled by liveData(false)
 
     private val showList = arrayListOf<ShowResponseItem>()
 
-    private val queryObserver: Observer<String>
 
     private val notifyShowListUpdate = SingleLiveEvent<Any>()
 
     init {
-        showLoading.value = false
-        searchEnabled.value = false
-        queryValue.value = ""
-        queryObserver = Observer { query -> searchEnabled.value = !TextUtils.isEmpty(query) }
-        queryValue.observeForever(queryObserver)
+        addUpdateListener(queryValue) { query ->
+            searchEnabled(!TextUtils.isEmpty(query))
+        }
     }
 
     override fun onCleared() {
         super.onCleared()
         searchShows.unsubscribe()
-        queryValue.removeObserver(queryObserver)
-        for (showItem in showList) {
-            showItem.onCleared()
-        }
     }
 
     override fun getItemsCount(): Int {
@@ -60,19 +58,19 @@ constructor(private val searchShows: SearchShows) : ViewModel(),
     }
 
     private fun searchShow() {
-        showLoading.value = true
+        showLoading(true)
         queryValue.value?.let {
             searchShows.query = it
             searchShows.execute {
 
                 onComplete { list: List<ShowResponse> ->
-                    showLoading.value = false
+                    showLoading(false)
                     createItemList(list)
                     notifyShowListUpdate.call()
                 }
 
                 onError { throwable ->
-                    showLoading.value = false
+                    showLoading(false)
                 }
             }
         }
@@ -81,7 +79,7 @@ constructor(private val searchShows: SearchShows) : ViewModel(),
     private fun createItemList(list: List<ShowResponse>) {
         showList.clear()
         for (response: ShowResponse in list) {
-            val showItem = ShowResponseItem(response)
+            val showItem = childViewModel { ShowResponseItem(response) }
             showList.add(showItem)
         }
     }

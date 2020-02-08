@@ -2,6 +2,7 @@ package com.psato.kdbexemple.presentation.home
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -31,6 +32,7 @@ class HomeFragment : BaseFragment() {
         super.onViewCreated(view, savedInstanceState)
         mvvmButton.onClick(homeFragmentViewModel::onMVVMClicked)
         homeFragmentViewModel.startSearch.observe(this, Observer {
+            Log.d("SATO", "metric start open search")
             startActivity(Intent(activity, QueryActivity::class.java))
         })
     }
