@@ -15,12 +15,19 @@
  *
  */
 
-package com.psato.kdbexemple.interactor.usecase
+package com.psato.kdbexemple.usecase
 
-import android.util.Log
-import kotlinx.coroutines.*
+import kotlinx.coroutines.CoroutineExceptionHandler
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Deferred
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.async
+import kotlinx.coroutines.cancelChildren
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.plus
+import kotlinx.coroutines.withContext
 import kotlin.coroutines.CoroutineContext
-
 
 /**
  * Abstract class for a Use Case (Interactor in terms of Clean Architecture).
@@ -30,56 +37,54 @@ import kotlin.coroutines.CoroutineContext
  * By convention each UseCase implementation will return the result using a coroutine
  * that will execute its job in a runAsync thread and will post the result in the UI thread.
  */
-typealias CompletionBlock<T> = UseCase.Request<T>.() -> Unit
 
-abstract class UseCase<T> {
+typealias CompletionBlock<TYPE> = UseCase.Result<TYPE>.() -> Unit
 
-    private var parentJob: Job = Job()
-    var backgroundContext: CoroutineContext = Dispatchers.IO
-    var foregroundContext: CoroutineContext = Dispatchers.Main
+abstract class UseCase<REQUEST, RESPONSE> {
 
-    protected abstract suspend fun executeOnBackground(): T
+    private var parentJob: Job? = null
+    private var backgroundContext: CoroutineContext = Dispatchers.IO
+    private var foregroundContext: CoroutineContext = Dispatchers.Main
+    private var useCaseScope: CoroutineScope = CoroutineScope(foregroundContext)
 
-    fun execute(block: CompletionBlock<T>) {
-        val response = Request<T>().apply { block() }
+    internal abstract suspend fun executeOnBackground(request: REQUEST): RESPONSE
+
+    operator fun invoke(scope: CoroutineScope, request: REQUEST, block: CompletionBlock<RESPONSE>) {
+        val response = Result<RESPONSE>().apply { block() }
+        val exceptionHandler = CoroutineExceptionHandler { _, throwable ->
+            response(throwable)
+        }
         unsubscribe()
-        parentJob = Job()
-        CoroutineScope(foregroundContext + parentJob).launch {
-            try {
-                val result = withContext(backgroundContext) {
-                    executeOnBackground()
-                }
-                response(result)
-            } catch (cancellationException: CancellationException) {
-                Log.d("UseCase", "canceled by user")
-                response(cancellationException)
-            } catch (e: Exception) {
-                Log.e("UseCase", "exception", e)
-                response(e)
+        useCaseScope = scope + foregroundContext + exceptionHandler
+        parentJob = useCaseScope.launch {
+            val result = withContext(backgroundContext) {
+                executeOnBackground(request)
             }
+            response(result)
         }
     }
 
-    protected suspend fun <X> runAsync(context: CoroutineContext = backgroundContext, block: suspend () -> X): Deferred<X> {
-        return CoroutineScope(context + parentJob).async {
-            block.invoke()
-        }
-    }
-
-    fun unsubscribe() {
-        parentJob.apply {
+    private fun unsubscribe() {
+        parentJob?.apply {
             cancelChildren()
             cancel()
         }
     }
 
+    protected suspend fun <UNKNOWN> runAsync(
+        context: CoroutineContext = backgroundContext,
+        block: suspend () -> UNKNOWN
+    ): Deferred<UNKNOWN> {
+        return useCaseScope.async(context) {
+            block()
+        }
+    }
 
-    class Request<T> {
-        private var onComplete: ((T) -> Unit)? = null
+    class Result<TYPE> {
+        private var onComplete: ((TYPE) -> Unit)? = null
         private var onError: ((Throwable) -> Unit)? = null
-        private var onCancel: ((CancellationException) -> Unit)? = null
 
-        fun onComplete(block: (T) -> Unit) {
+        fun onComplete(block: (TYPE) -> Unit) {
             onComplete = block
         }
 
@@ -87,26 +92,12 @@ abstract class UseCase<T> {
             onError = block
         }
 
-        fun onCancel(block: (CancellationException) -> Unit) {
-            onCancel = block
-        }
-
-        operator fun invoke(result: T) {
-            onComplete?.let {
-                it.invoke(result)
-            }
+        operator fun invoke(result: TYPE) {
+            onComplete?.invoke(result)
         }
 
         operator fun invoke(error: Throwable) {
-            onError?.let {
-                it.invoke(error)
-            }
-        }
-
-        operator fun invoke(error: CancellationException) {
-            onCancel?.let {
-                it.invoke(error)
-            }
+            onError?.invoke(error)
         }
     }
 }

@@ -3,7 +3,7 @@ package com.psato.kdbexemple.interactor.usecase.show
 import com.psato.kdbexemple.data.entity.Rating
 import com.psato.kdbexemple.data.entity.ShowResponse
 import com.psato.kdbexemple.data.repository.show.ShowRepository
-import com.psato.kdbexemple.interactor.usecase.UseCase
+import com.psato.kdbexemple.usecase.UseCase
 
 /**
  * Created by psato on 29/10/16.
@@ -11,12 +11,9 @@ import com.psato.kdbexemple.interactor.usecase.UseCase
 
 open class SearchShows
 constructor(private val showRepository: ShowRepository) :
-        UseCase<List<ShowResponse>>() {
-
-    lateinit var query: String
-
-    public override suspend fun executeOnBackground(): List<ShowResponse> {
-        return showRepository.searchShow(query).map {
+        UseCase<String,List<ShowResponse>>() {
+    override suspend fun executeOnBackground(request: String): List<ShowResponse> {
+        return showRepository.searchShow(request).map {
             runAsync {
                 val rating: Rating = showRepository.showRating(it.show!!.ids!!.trakt!!)
                 ShowResponse(it.show!!.title!!, rating.rating)

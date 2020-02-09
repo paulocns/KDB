@@ -1,10 +1,10 @@
 package com.psato.onewaybind
 
-import android.arch.lifecycle.LifecycleOwner
-import android.arch.lifecycle.MutableLiveData
-import android.arch.lifecycle.Observer
-import android.support.v4.app.FragmentActivity
 import android.widget.EditText
+import androidx.fragment.app.FragmentActivity
+import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.Observer
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -25,6 +25,13 @@ class OneWayBindingKtTest {
 
     private lateinit var editTextMock: EditText
 
+    private inner class TestClass : Bindable {
+        override val lifeCycleOwner: LifecycleOwner
+            get() = lifecycleOwner
+    }
+
+    private lateinit var testClass: TestClass
+
     @Captor
     private lateinit var observerCaptor: ArgumentCaptor<Observer<String>>
 
@@ -34,6 +41,7 @@ class OneWayBindingKtTest {
         lifecycleOwner = Robolectric.setupActivity(FragmentActivity::class.java)
         editTextMock = Mockito.mock(EditText::class.java)
         liveDataMock = Mockito.mock(MutableLiveData::class.java) as MutableLiveData<String>
+        testClass = TestClass()
     }
 
     @Test
@@ -41,7 +49,9 @@ class OneWayBindingKtTest {
         //arrange
 
         //act
-        lifecycleOwner.bind(liveDataMock, editTextMock::setText)
+        testClass.apply {
+            liveDataMock.bind(editTextMock::setText)
+        }
         //assert
         Mockito.verify(liveDataMock).observe(eq(lifecycleOwner), Mockito.any())
     }
@@ -49,7 +59,9 @@ class OneWayBindingKtTest {
     @Test
     fun test_observer() {
         //arrange
-        lifecycleOwner.bind(liveDataMock) { editTextMock.setText(it) }
+        testClass.apply {
+            liveDataMock.bind(editTextMock::setText)
+        }
         Mockito.verify(liveDataMock).observe(eq(lifecycleOwner), observerCaptor.capture())
         val observe = observerCaptor.value
         //act
@@ -61,7 +73,9 @@ class OneWayBindingKtTest {
     @Test
     fun test_observerNull() {
         //arrange
-        lifecycleOwner.bind(liveDataMock, editTextMock::setText)
+        testClass.apply {
+            liveDataMock.bind(editTextMock::setText)
+        }
         Mockito.verify(liveDataMock).observe(eq(lifecycleOwner), observerCaptor.capture())
         val observe = observerCaptor.value
         //act
