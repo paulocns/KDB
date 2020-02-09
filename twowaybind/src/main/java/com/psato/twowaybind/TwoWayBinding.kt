@@ -12,17 +12,17 @@ import java.lang.ref.WeakReference
 
 
 /**
- * Method to two way bind the  MutableLiveData with a two way binder\
+ * Extension function for LiveData to bind it to a TwoWayBinder
  * When the value inside the data changes the ui is updated, and if the user changes
  * the value on the ui the data is also changed.
  *
  * @param T the type of your binding.
- * @param data A MutableLiveData of any type.
  * @param twoWayBinder a TwoWayBinder of the same type as your MutableLiveData.
+ * @throws IllegalArgumentException when not called on a MutableLiveData
  */
-interface TwoWayBindable: Bindable {
-    fun <T> LiveData<T>.twoWayBind(twoWayBinder: TwoWayBinder<T>){
-        require(this is MutableLiveData){
+interface TwoWayBindable : Bindable {
+    fun <T> LiveData<T>.twoWayBind(twoWayBinder: TwoWayBinder<T>) {
+        require(this is MutableLiveData) {
             "can't set values to read only live data"
         }
         observe(lifeCycleOwner, Observer { value ->

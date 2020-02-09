@@ -29,6 +29,9 @@ interface Bindable {
 
     /**
      *  The Bind extension function it creates an observer for the LiveData and call the block of code passed as the parameter
+     *
+     *  @param T the type of your binding.
+     *  @param function block of code that will be executed on update
      */
     fun <T> LiveData<T>.bind(function: (data: T) -> Unit) {
         observe(lifeCycleOwner, Observer { value ->
