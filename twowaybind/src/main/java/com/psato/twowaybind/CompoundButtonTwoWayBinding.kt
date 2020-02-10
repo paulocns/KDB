@@ -6,7 +6,7 @@ import java.lang.ref.WeakReference
 
 
 /**
- * @property bindableCheck TwoWayBinder for the check field.
+ * @property bindableCheck TwoWayBinder for the CompoundButton field.
  */
 val CompoundButton.bindableCheck: TwoWayBinder<Boolean>
     get() = object : TwoWayBinder<Boolean>() {

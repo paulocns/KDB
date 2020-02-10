@@ -8,7 +8,6 @@ import androidx.lifecycle.Observer
 import com.nhaarman.mockitokotlin2.mock
 import junit.framework.TestCase.assertEquals
 import junit.framework.TestCase.assertTrue
-
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -30,6 +29,13 @@ class TwoWayBindingKtTest {
 
     private lateinit var binderMock: TwoWayBinder<String>
 
+    private inner class TestClass : TwoWayBindable {
+        override val lifeCycleOwner: LifecycleOwner
+            get() = lifecycleOwner
+    }
+
+    private lateinit var testClass: TestClass
+
     @Captor
     private lateinit var observerCaptor: ArgumentCaptor<Observer<String>>
 
@@ -39,6 +45,7 @@ class TwoWayBindingKtTest {
         lifecycleOwner = Robolectric.setupActivity(FragmentActivity::class.java)
         binderMock = mock()
         liveDataMock = mock()
+        testClass = TestClass()
     }
 
     @Test
@@ -46,7 +53,9 @@ class TwoWayBindingKtTest {
         //arrange
 
         //act
-        lifecycleOwner.twoWayBind(liveDataMock, binderMock)
+        testClass.apply {
+            liveDataMock.twoWayBind(binderMock)
+        }
         //assert
         Mockito.verify(liveDataMock).observe(eq(lifecycleOwner), Mockito.any())
         Mockito.verify(binderMock).twoWayBind(liveDataMock, lifecycleOwner)
@@ -55,11 +64,13 @@ class TwoWayBindingKtTest {
     @Test
     fun test_observer() {
         //arrange
-        lifecycleOwner.twoWayBind(liveDataMock, binderMock)
+        testClass.apply {
+            liveDataMock.twoWayBind(binderMock)
+        }
         Mockito.verify(liveDataMock).observe(eq(lifecycleOwner), observerCaptor.capture())
         val observe = observerCaptor.value
         var called = false
-        val function = {it:String ->
+        val function = { it: String ->
             called = true
             assertEquals("value2", it)
         }
@@ -74,7 +85,9 @@ class TwoWayBindingKtTest {
     @Test
     fun test_observerNull() {
         //arrange
-        lifecycleOwner.twoWayBind(liveDataMock, binderMock)
+        testClass.apply {
+            liveDataMock.twoWayBind(binderMock)
+        }
         Mockito.verify(liveDataMock).observe(eq(lifecycleOwner), observerCaptor.capture())
         val observe = observerCaptor.value
         //act
