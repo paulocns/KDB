@@ -73,10 +73,13 @@ val showItem = childViewModel { ShowResponseItem(response) }
 ```
 Lazy ChildViewModel creation for the current  ParentViewModel. The child will be cleared when the parent finishes
 
+
 **ChildViewModel** class
+
 Used to when the itens inside a RecyclerView are ViewModels
 
 **LifeCycleViewHolder** class
+
 Makes the ViewHolder a LifeCyclerOwner to be used with LiveDatas inside ViewModels
 
 ## KDB
