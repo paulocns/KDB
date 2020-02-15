@@ -39,7 +39,7 @@ class QueryFragment : BaseFragment(), TwoWayBindable {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        queryViewModelArc.apply {  }.searchEnabled.bind(searchButton::setEnabled)
+        queryViewModelArc.searchEnabled.bind(searchButton::setEnabled)
         queryViewModelArc.showLoading.bind { loadinLayout.present = it }
         queryViewModelArc.queryValue.twoWayBind(queryEditText.bindableText)
         searchButton.onClick(queryViewModelArc::onQueryClick)
