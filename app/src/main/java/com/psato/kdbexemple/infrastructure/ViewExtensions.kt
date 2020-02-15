@@ -1,4 +1,4 @@
-package com.psato.extensions
+package com.psato.kdbexemple.infrastructure
 
 import android.view.View
 

@@ -1,4 +1,4 @@
-package com.psato.extensions
+package androidx.lifecycle
 
 import com.nhaarman.mockitokotlin2.spy
 import org.junit.Before

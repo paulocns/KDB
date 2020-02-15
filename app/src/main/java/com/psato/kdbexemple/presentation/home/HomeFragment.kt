@@ -8,7 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import androidx.lifecycle.Observer
-import com.psato.extensions.onClick
+import com.psato.kdbexemple.infrastructure.onClick
 import com.psato.kdbexemple.R
 import com.psato.kdbexemple.infrastructure.bindView
 import com.psato.kdbexemple.presentation.base.BaseFragment

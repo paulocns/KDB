@@ -4,10 +4,8 @@ package com.psato.kdbexemple.presentation.search
 import android.text.TextUtils
 import android.view.View
 import androidx.lifecycle.LifecycleOwner
-import androidx.lifecycle.LiveDataUpdateListener
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ParentViewModel
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelCoroutineScoper
 import com.psato.extensions.AdapterViewModel
 import com.psato.extensions.LiveDataFactory
@@ -15,10 +13,11 @@ import com.psato.extensions.LiveDataSetter
 import com.psato.kdbexemple.data.entity.ShowResponse
 import com.psato.kdbexemple.infrastructure.SingleLiveEvent
 import com.psato.kdbexemple.interactor.usecase.show.SearchShows
+import com.psato.kdbexemple.presentation.base.BaseViewModel
 
 class QueryViewModelArc
-constructor(private val searchShows: SearchShows) : ViewModel(),
-    LiveDataFactory, LiveDataSetter, LiveDataUpdateListener, ParentViewModel,
+constructor(private val searchShows: SearchShows) : BaseViewModel(),
+    LiveDataFactory, LiveDataSetter, ParentViewModel,
     ViewModelCoroutineScoper, AdapterViewModel<ShowResponseItem> {
     val queryValue by liveData("")
 
@@ -26,7 +25,7 @@ constructor(private val searchShows: SearchShows) : ViewModel(),
 
     val searchEnabled by liveData(false)
 
-    private val scope  by viewModelScope()
+    private val scope by viewModelScope()
 
     private val showList = arrayListOf<ShowResponseItem>()
 
@@ -34,7 +33,7 @@ constructor(private val searchShows: SearchShows) : ViewModel(),
     private val notifyShowListUpdate = SingleLiveEvent<Any>()
 
     init {
-        addUpdateListener(queryValue) { query ->
+        queryValue.observe { query ->
             searchEnabled(!TextUtils.isEmpty(query))
         }
     }

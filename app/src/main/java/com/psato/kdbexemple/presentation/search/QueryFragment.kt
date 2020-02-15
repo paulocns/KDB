@@ -11,8 +11,8 @@ import android.widget.EditText
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.psato.extensions.onClick
-import com.psato.extensions.present
+import com.psato.kdbexemple.infrastructure.onClick
+import com.psato.kdbexemple.infrastructure.present
 import com.psato.kdbexemple.R
 import com.psato.kdbexemple.infrastructure.bindView
 import com.psato.kdbexemple.presentation.base.BaseFragment
