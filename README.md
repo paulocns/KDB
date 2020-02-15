@@ -3,28 +3,88 @@ Kotlin Databind library was made as an alternative to the Android Databind Libra
 
 This library was made using extension function, since there is no code generation, no more hunting through a log to find a error in a 1000 errors log.
 
-## Adding to project
+There are 4 libaries that you can add to your project
 
-To use it just add it to your app gradle file
-
+## One Way Binding
+To add to your project:
 ``` groovy
-implementation 'com.psato.kdbcore:kdb:0.4.0'
+implementation 'com.psato.kdbcore:onewaybind:1.0.0'
+```
+To use just add the interface **Bindable** to your class
+``` kotlin
+class QueryFragment : BaseFragment(), Bindable {
+```
+and just call the **bind** method
+``` kotlin
+queryViewModelArc.showLoading.bind { loadinLayout.present = it }
 ```
 
-## Simple usage
-Inside a LifeCycleOwner to perform a one way bind just call the method **bind**
+## Two Way Binding
+To add to your project:
+``` groovy
+implementation 'com.psato.kdbcore:twowaybind:1.0.0'
+```
+To use just add the interface **Bindable** to your class
+``` kotlin
+class QueryFragment : BaseFragment(), TwoWayBindable {
+```
+and just call the **bind** method
+``` kotlin
+queryViewModelArc.queryValue.twoWayBind(queryEditText.bindableText)
+```
+and to listem to update on the LiveData on your ViewModel implement the interface **LiveDataUpdateListener**
 
 ``` kotlin
-bind(queryViewModelArc.searchEnabled, searchButton::setEnabled)
-bind(queryViewModelArc.showLoading){ loadinLayout.present = it} 
+class QueryViewModelArc
+constructor(private val searchShows: SearchShows) : 
+    ViewModel(), LiveDataUpdateListener {
 ```
-
-To perform a two way bind call the method **twoWayBind**
-
+and to listem to updates call the **addUpdateListener** method
 ``` kotlin
-twoWayBind(queryViewModelArc.queryValue, queryEditText.bindableText)
+addUpdateListener(queryValue) { query ->
+            searchEnabled(!TextUtils.isEmpty(query))
+        }
 ```
+This listener will me automatically removed when the ViewModel finishes
 
+## Extensions
+To add to your project:
+``` groovy
+implementation 'com.psato.kdbcore:extensions:1.0.0'
+```
+This library contains several functions to make your life easier using ViewModel and Kdb
+
+**LiveDataFactory** interface
+``` kotlin
+val queryValue by liveData("")
+```
+This method that creates a MutableLiveData and return it as a LiveData
+
+**LiveDataSetter** interface
+``` kotlin
+showLoading(true)
+```
+This method require that this LiveData is a MutableLiveData,
+cast it to MutableLiveData and set it's value
+
+**ParentViewModel** interface
+``` kotlin
+val showItem = childViewModel { ShowResponseItem(response) }
+```
+Lazy ChildViewModel creation for the current  ParentViewModel. The child will be cleared when the parent finishes
+
+**ChildViewModel** class
+Used to when the itens inside a RecyclerView are ViewModels
+
+**LifeCycleViewHolder** class
+Makes the ViewHolder a LifeCyclerOwner to be used with LiveDatas inside ViewModels
+
+## KDB
+To add to your project:
+``` groovy
+implementation 'com.psato.kdbcore:extensions:1.0.0'
+```
+Contains all the libraries from KDB package
 
 ## License
 
