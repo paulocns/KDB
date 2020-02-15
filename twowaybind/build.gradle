@@ -1,7 +1,24 @@
+apply plugin: 'com.novoda.bintray-release'
 apply plugin: 'com.android.library'
-apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-kapt'
+
+
+publish {
+
+    def groupProjectID = 'com.psato.kdbcore'
+    def artifactProjectID = 'twowaybind'
+    def publishVersionID = '1.0.0'
+
+    userOrg = 'paulocns'
+    repoName = 'kdb'
+    groupId = groupProjectID
+    artifactId = artifactProjectID
+    publishVersion = publishVersionID
+    desc = 'Library to implement one way databind with kotlin extension functions, no code generation'
+    website = 'https://github.com/paulocns/kdb'
+
+}
 
 android {
     compileSdkVersion 28
@@ -29,7 +46,7 @@ android {
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
-    implementation project(":onewaybind")
+    api project(":onewaybind")
     implementation 'androidx.appcompat:appcompat:1.1.0'
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test:runner:1.2.0'
