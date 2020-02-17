@@ -85,7 +85,7 @@ Makes the ViewHolder a LifeCyclerOwner to be used with LiveDatas inside ViewMode
 ## KDB
 To add to your project:
 ``` groovy
-implementation 'com.psato.kdbcore:extensions:1.0.0'
+implementation 'com.psato.kdbcore:kdb:1.0.0'
 ```
 Contains all the libraries from KDB package
 
