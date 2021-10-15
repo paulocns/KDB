@@ -1,37 +1,106 @@
-## Welcome to GitHub Pages
+# KDB
+Kotlin Databind library was made as an alternative to the Android Databind Library, this was constructed to be used with LiveData, so no changes to your ViewModel/Presenter is required to use this.
 
-You can use the [editor on GitHub](https://github.com/paulocns/kdb/edit/gh-pages/index.md) to maintain and preview the content for your website in Markdown files.
+This library was made using extension function, since there is no code generation, no more hunting through a log to find a error in a 1000 errors log.
 
-Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://jekyllrb.com/) to rebuild the pages in your site, from the content in your Markdown files.
+There are 4 libaries that you can add to your project
 
-### Markdown
-
-Markdown is a lightweight and easy-to-use syntax for styling your writing. It includes conventions for
-
-```markdown
-Syntax highlighted code block
-
-# Header 1
-## Header 2
-### Header 3
-
-- Bulleted
-- List
-
-1. Numbered
-2. List
-
-**Bold** and _Italic_ and `Code` text
-
-[Link](url) and ![Image](src)
+## One Way Binding
+To add to your project:
+``` groovy
+implementation 'com.psato.kdbcore:onewaybind:1.0.0'
+```
+To use just add the interface **Bindable** to your class
+``` kotlin
+class QueryFragment : BaseFragment(), Bindable {
+```
+and just call the **bind** method
+``` kotlin
+queryViewModelArc.showLoading.bind { loadinLayout.present = it }
 ```
 
-For more details see [GitHub Flavored Markdown](https://guides.github.com/features/mastering-markdown/).
+## Two Way Binding
+To add to your project:
+``` groovy
+implementation 'com.psato.kdbcore:twowaybind:1.0.0'
+```
+To use just add the interface **Bindable** to your class
+``` kotlin
+class QueryFragment : BaseFragment(), TwoWayBindable {
+```
+and just call the **bind** method
+``` kotlin
+queryViewModelArc.queryValue.twoWayBind(queryEditText.bindableText)
+```
+and to listem to update on the LiveData on your ViewModel implement the interface **LiveDataUpdateListener**
 
-### Jekyll Themes
+``` kotlin
+class QueryViewModelArc
+constructor(private val searchShows: SearchShows) : 
+    ViewModel(), LiveDataUpdateListener {
+```
+and to listem to updates call the **addUpdateListener** method
+``` kotlin
+addUpdateListener(queryValue) { query ->
+            searchEnabled(!TextUtils.isEmpty(query))
+        }
+```
+This listener will me automatically removed when the ViewModel finishes
 
-Your Pages site will use the layout and styles from the Jekyll theme you have selected in your [repository settings](https://github.com/paulocns/kdb/settings/pages). The name of this theme is saved in the Jekyll `_config.yml` configuration file.
+## Extensions
+To add to your project:
+``` groovy
+implementation 'com.psato.kdbcore:extensions:1.0.0'
+```
+This library contains several functions to make your life easier using ViewModel and Kdb
 
-### Support or Contact
+**LiveDataFactory** interface
+``` kotlin
+val queryValue by liveData("")
+```
+This method that creates a MutableLiveData and return it as a LiveData
 
-Having trouble with Pages? Check out our [documentation](https://docs.github.com/categories/github-pages-basics/) or [contact support](https://support.github.com/contact) and we’ll help you sort it out.
+**LiveDataSetter** interface
+``` kotlin
+showLoading(true)
+```
+This method require that this LiveData is a MutableLiveData,
+cast it to MutableLiveData and set it's value
+
+**ParentViewModel** interface
+``` kotlin
+val showItem = childViewModel { ShowResponseItem(response) }
+```
+Lazy ChildViewModel creation for the current  ParentViewModel. The child will be cleared when the parent finishes
+
+
+**ChildViewModel** class
+
+Used to when the itens inside a RecyclerView are ViewModels
+
+**LifeCycleViewHolder** class
+
+Makes the ViewHolder a LifeCyclerOwner to be used with LiveDatas inside ViewModels
+
+## KDB
+To add to your project:
+``` groovy
+implementation 'com.psato.kdbcore:kdb:1.0.0'
+```
+Contains all the libraries from KDB package
+
+## License
+
+Copyright 2019 Paulo Vitor Sato
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
