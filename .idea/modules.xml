@@ -2,12 +2,12 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
-      <module fileurl="file://$PROJECT_DIR$/extensions/extensions.iml" filepath="$PROJECT_DIR$/extensions/extensions.iml" />
-      <module fileurl="file://$PROJECT_DIR$/kdb.iml" filepath="$PROJECT_DIR$/kdb.iml" />
-      <module fileurl="file://$PROJECT_DIR$/kdbcore/kdbcore.iml" filepath="$PROJECT_DIR$/kdbcore/kdbcore.iml" />
-      <module fileurl="file://$PROJECT_DIR$/onewaybind/onewaybind.iml" filepath="$PROJECT_DIR$/onewaybind/onewaybind.iml" />
-      <module fileurl="file://$PROJECT_DIR$/twowaybind/twowaybind.iml" filepath="$PROJECT_DIR$/twowaybind/twowaybind.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/kdb.app.iml" filepath="$PROJECT_DIR$/.idea/modules/app/kdb.app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/extensions/kdb.extensions.iml" filepath="$PROJECT_DIR$/.idea/modules/extensions/kdb.extensions.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/kdbcore/kdb.kdbcore.iml" filepath="$PROJECT_DIR$/.idea/modules/kdbcore/kdb.kdbcore.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/onewaybind/kdb.onewaybind.iml" filepath="$PROJECT_DIR$/.idea/modules/onewaybind/kdb.onewaybind.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/twowaybind/kdb.twowaybind.iml" filepath="$PROJECT_DIR$/.idea/modules/twowaybind/kdb.twowaybind.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/psato.kdb.iml" filepath="$PROJECT_DIR$/.idea/modules/psato.kdb.iml" />
     </modules>
   </component>
 </project>
