@@ -47,18 +47,24 @@ dependencies {
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.4.3"
     implementation "androidx.lifecycle:lifecycle-common-java8:$lifecycle_version"
 }
-//publish {
-//
-//    def groupProjectID = 'com.psato.kdbcore'
-//    def artifactProjectID = 'extensions'
-//    def publishVersionID = '1.0.0'
-//
-//    userOrg = 'paulocns'
-//    repoName = 'kdb'
-//    groupId = groupProjectID
-//    artifactId = artifactProjectID
-//    publishVersion = publishVersionID
-//    desc = 'Library to implement one way databind with kotlin extension functions, no code generation'
-//    website = 'https://github.com/paulocns/kdb'
-//
-//}
+
+ext {
+    PUBLISH_GROUP_ID = 'dev.kdblib'
+    PUBLISH_VERSION = '2.0.0'
+    PUBLISH_ARTIFACT_ID = 'extensions'
+    PUBLISH_DESCRIPTION = 'Extensions implementation for kotlin Android'
+    PUBLISH_URL = 'https://github.com/paulocns/kdb'
+    PUBLISH_LICENSE_NAME = 'Apache License'
+    PUBLISH_LICENSE_URL =
+            'https://github.com/paulocns/kdb/blob/master/LICENSE'
+    PUBLISH_DEVELOPER_ID = 'paulocns'
+    PUBLISH_DEVELOPER_NAME = 'Paulo Vitor Sato'
+    PUBLISH_DEVELOPER_EMAIL = 'paulocns@gmail.com'
+    PUBLISH_SCM_CONNECTION =
+            'scm:git:github.com/paulocns/kdb.git'
+    PUBLISH_SCM_DEVELOPER_CONNECTION =
+            'scm:git:ssh://github.com/paulocns/kdb.git'
+    PUBLISH_SCM_URL =
+            'https://github.com/paulocns/kdb/tree/master'
+}
+apply from: "${rootProject.projectDir}/scripts/publish-module.gradle"
