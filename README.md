@@ -15,7 +15,7 @@ Due to **Jcenter shutdown**, the KDB project's maven group id was previously ```
 repositories {
     mavenCentral()    
 }
-
+`
 
 ## One Way Binding
 To add to your project:
