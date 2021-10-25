@@ -10,6 +10,12 @@ There are 4 libaries that you can add to your project
 
 Due to **Jcenter shutdown**, the KDB project's maven group id was previously ```com.psato.kdbcore``` and is now ```dev.kdblib```. Please check your configuration as shown below.
 
+```groovy
+// Add Maven Central to your repositories if needed
+repositories {
+    mavenCentral()    
+}
+
 
 ## One Way Binding
 To add to your project:
