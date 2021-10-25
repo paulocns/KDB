@@ -1,14 +1,19 @@
-# KDB
 Kotlin Databind library was made as an alternative to the Android Databind Library, this was constructed to be used with LiveData, so no changes to your ViewModel/Presenter is required to use this.
 
 This library was made using extension function, since there is no code generation, no more hunting through a log to find a error in a 1000 errors log.
 
 There are 4 libaries that you can add to your project
 
+## Migrating from 1.0.0 to 2.0.0
+:warning:
+
+Due to **Jcenter shutdown**, the KDB project's maven group id was previously ```com.psato.kdbcore``` and is now ```dev.kdblib```. Please check your configuration as shown below.
+
+
 ## One Way Binding
 To add to your project:
 ``` groovy
-implementation 'com.psato.kdbcore:onewaybind:1.0.0'
+implementation 'dev.kdblib:onewaybind:2.0.0'
 ```
 To use just add the interface **Bindable** to your class
 ``` kotlin
@@ -22,7 +27,7 @@ queryViewModelArc.showLoading.bind { loadinLayout.present = it }
 ## Two Way Binding
 To add to your project:
 ``` groovy
-implementation 'com.psato.kdbcore:twowaybind:1.0.0'
+implementation 'dev.kdblib:twowaybind:2.0.0'
 ```
 To use just add the interface **Bindable** to your class
 ``` kotlin
@@ -50,7 +55,7 @@ This listener will me automatically removed when the ViewModel finishes
 ## Extensions
 To add to your project:
 ``` groovy
-implementation 'com.psato.kdbcore:extensions:1.0.0'
+implementation 'dev.kdblib:extensions:2.0.0'
 ```
 This library contains several functions to make your life easier using ViewModel and Kdb
 
@@ -85,9 +90,9 @@ Makes the ViewHolder a LifeCyclerOwner to be used with LiveDatas inside ViewMode
 ## KDB
 To add to your project:
 ``` groovy
-implementation 'com.psato.kdbcore:kdb:1.0.0'
+implementation 'dev.kdblib:kdb:2.0.0'
 ```
-Contains all the libraries from KDB package 
+Contains all the libraries from KDB package
 
 ## License
 
